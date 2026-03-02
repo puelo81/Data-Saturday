@@ -1,0 +1,101 @@
+createOrReplace
+
+	table 'Time Intelligence'
+		lineageTag: 533e5c11-cd2f-4f3d-a4e7-079fcaff842f
+
+		calculationGroup
+
+			calculationItem Total_Sales = SELECTEDMEASURE()
+
+				formatStringDefinition = "#,##0"
+
+			calculationItem YTD = CALCULATE(SELECTEDMEASURE(), DATESYTD('Calendar'[Date]))
+
+				formatStringDefinition = "#,##0"
+
+			calculationItem MTD = CALCULATE(SELECTEDMEASURE(), DATESMTD('Calendar'[Date]))
+
+				formatStringDefinition = "#,##0"
+
+			calculationItem QTD = CALCULATE(SELECTEDMEASURE(), DATESQTD('Calendar'[Date]))
+
+				formatStringDefinition = "#,##0"
+
+			calculationItem Current_Year = CALCULATE(SELECTEDMEASURE(), YEAR('Calendar'[Date]) = YEAR(TODAY()))
+
+				formatStringDefinition = "#,##0"
+
+			calculationItem Previous_Year = CALCULATE(SELECTEDMEASURE(), YEAR('Calendar'[Date]) = YEAR(TODAY()) - 1)
+
+				formatStringDefinition = "#,##0"
+
+			calculationItem Current_Quarter = CALCULATE(SELECTEDMEASURE(), QUARTER('Calendar'[Date]) = QUARTER(TODAY()) && YEAR('Calendar'[Date]) = YEAR(TODAY()))
+
+				formatStringDefinition = "#,##0"
+
+			calculationItem Previous_Quarter = CALCULATE(SELECTEDMEASURE(), QUARTER('Calendar'[Date]) = QUARTER(TODAY()) - 1 && YEAR('Calendar'[Date]) = YEAR(TODAY()))
+
+				formatStringDefinition = "#,##0"
+
+			calculationItem Current_Month = CALCULATE(SELECTEDMEASURE(), MONTH('Calendar'[Date]) = MONTH(TODAY()) && YEAR('Calendar'[Date]) = YEAR(TODAY()))
+
+				formatStringDefinition = "#,##0"
+
+			calculationItem Previous_Month = CALCULATE(SELECTEDMEASURE(), MONTH('Calendar'[Date]) = MONTH(TODAY()) - 1 && YEAR('Calendar'[Date]) = YEAR(TODAY()))
+
+				formatStringDefinition = "#,##0"
+
+			calculationItem YoY_Growth = SELECTEDMEASURE() - CALCULATE(SELECTEDMEASURE(), SAMEPERIODLASTYEAR('Calendar'[Date]))
+
+				formatStringDefinition = "#,##0"
+
+			calculationItem YoY_Percentage_Change = DIVIDE(SELECTEDMEASURE() - CALCULATE(SELECTEDMEASURE(), SAMEPERIODLASTYEAR('Calendar'[Date])), CALCULATE(SELECTEDMEASURE(), SAMEPERIODLASTYEAR('Calendar'[Date])))
+
+				formatStringDefinition = "0.00%"
+
+			calculationItem QoQ_Growth = SELECTEDMEASURE() - CALCULATE(SELECTEDMEASURE(), DATEADD('Calendar'[Date], -1, QUARTER))
+
+				formatStringDefinition = "#,##0"
+
+			calculationItem QoQ_Percentage_Change = DIVIDE(SELECTEDMEASURE() - CALCULATE(SELECTEDMEASURE(), DATEADD('Calendar'[Date], -1, QUARTER)), CALCULATE(SELECTEDMEASURE(), DATEADD('Calendar'[Date], -1, QUARTER)))
+
+				formatStringDefinition = "0.00%"
+
+			calculationItem MoM_Growth = SELECTEDMEASURE() - CALCULATE(SELECTEDMEASURE(), DATEADD('Calendar'[Date], -1, MONTH))
+
+				formatStringDefinition = "#,##0"
+
+			calculationItem MoM_Change = DIVIDE(SELECTEDMEASURE() - CALCULATE(SELECTEDMEASURE(), DATEADD('Calendar'[Date], -1, MONTH)), CALCULATE(SELECTEDMEASURE(), DATEADD('Calendar'[Date], -1, MONTH)))
+
+				formatStringDefinition = "0.00%"
+
+			calculationItem Same_Period_Last_Year = CALCULATE(SELECTEDMEASURE(), SAMEPERIODLASTYEAR('Calendar'[Date]))
+
+				formatStringDefinition = "#,##0"
+
+			calculationItem Same_Period_Last_Month = CALCULATE(SELECTEDMEASURE(), DATEADD('Calendar'[Date], -1, MONTH))
+
+				formatStringDefinition = "#,##0"
+
+			calculationItem Rolling_12_Month_Total = CALCULATE(SELECTEDMEASURE(), DATESINPERIOD('Calendar'[Date], MAX('Calendar'[Date]), -12, MONTH))
+
+				formatStringDefinition = "#,##0"
+
+		column 'Calculation group column'
+			dataType: string
+			lineageTag: bbab4395-2461-4f2c-9fdb-98e2e11b5834
+			summarizeBy: none
+			sourceColumn: Name
+			sortByColumn: Ordinal
+
+			annotation SummarizationSetBy = Automatic
+
+		column Ordinal
+			dataType: int64
+			formatString: 0
+			lineageTag: 0bf34f41-4876-4ff3-bb9c-d1cf57c87977
+			summarizeBy: sum
+			sourceColumn: Ordinal
+
+			annotation SummarizationSetBy = Automatic
+
